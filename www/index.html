@@ -1,0 +1,513 @@
+
+<html>
+  <head>
+    <meta charset="utf-8">
+  
+    <title></title>
+
+     <!--Se cargan las hojas de estilo necesarias-->
+     
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile.flatui.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>    
+    <link rel="stylesheet" type="text/css" href="css/ot.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/ratchet-theme-ios.min.css"/>
+    <link rel="stylesheet" type="text/css" href="css/ratchet.min.css"/>    
+  
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+    <link href="css/ionic.app.css" rel="stylesheet">
+    -->
+
+   <script src="opentok.js"></script> 
+  <!-- <script src="//static.opentok.com/webrtc/v2.2/js/opentok.min.js"></script>-->  
+   <script type="text/javascript" src="phonegap-1.4.1.js"></script>
+    <script type="text/javascript" src="cordova.js"></script>
+     <script type="text/javascript" src="cordova_plugins.js"></script>
+
+      
+  <style type="text/css">
+  #datos{   
+    height: 80%;
+    width: 95%;
+    padding: 10px;
+    /*para Firefox*/
+    -moz-border-radius: 15px 15px 15px 15px;
+    /*para Safari y Chrome*/
+    -webkit-border-radius: 15px 15px 15px 15px;
+    /* para Opera */
+    border-radius: 15px 15px 15px 15px;
+
+    font-style: #823484;
+  }
+
+  
+
+
+  </style>
+
+
+   <script type="text/javascript">
+
+  function onDeviceReady() {
+      document.addEventListener("backbutton", handleBackButton, true);
+}
+function handleBackButton(){
+ 
+    if($.mobile.activePage.attr('id') == 'inicio'
+
+              || $.mobile.activePage.attr('id') == 'inicio'){
+                 cerrar();  
+
+    }else if ($.mobile.activePage.attr('id') == 'videollamada'){
+        cerrar();
+        
+    }else if ($.mobile.activePage.attr('id') == 'cuenta'){
+
+        navigator.app.exitApp();        
+                
+    }else if ($.mobile.activePage.attr('id') == 'perfil'){
+           $.mobile.changePage('#cuenta');
+                   
+        
+    }else{
+        navigator.app.backHistory();        
+    }
+} 
+document.addEventListener("deviceready", onDeviceReady, false);
+
+  </script>
+  </head>
+  <body class="platform-android platform-cordova platform-webview" id="video">
+    
+  <div>
+      
+  <!--Página principal-->
+
+  <div data-role="page" data-theme="f" id="inicio"> 
+    <!--Cabecera-->
+    <div data-role="header">
+    <a  data-iconpos="notext" data-shadow="false" data-iconshadow="false" class="ui-icon-nodisc"></a>
+      <h3>RelevApp</h3>
+    </div>
+    <!--Hasta aquí la cabecera-->
+    
+      <div data-role="content"><!--Content de la página principal-->
+
+        <center><div class="card"><em>Bienvenido a Centro de Relevo</em><img src="css/images/relevo.jpg" width="100%" height="25%" >
+          </div></center>
+      
+            <form name="formulario" id="formulario">
+                  
+                    <label>Cedula</label>  
+                    <input  type="number" name="username" id="username" placeholder="cedula" required>
+                    <label>Contraseña</label>
+                    <input  type="password" name="password" id="password" placeholder="contraseña" required>
+                    <div id="error" class="text-error"></div>
+                    <center><input type="button" value="Iniciar Sesion" onclick="login();" data-inline="true"></center>
+
+                      
+            </form>
+                        
+             <div>
+                    <center><h6>¿No tienes una cuenta? Dale click <a href="#registrar">aquí</a></h6></center>
+            </div>
+            <div>
+                  <center> <h6>¿Has olvidado tu contraseña?<br>Dale click <a href="#recordar">aquí</a></h6></center>
+
+            </div>
+
+      </div><!--Hasta aquí va el content-->
+    
+  </div>
+  <!--Hasta aquí va la página principal-->
+
+  <!--Página Registrar-->
+
+  <div data-role="page" data-theme="f" id="registrar"> 
+
+    <!--Cabecera-->
+    <div data-role="header">
+      <h3>Registrar</h3>
+    </div>
+    <!--Hasta aquí la cabecera-->
+    
+      <div data-role="content" id="wrapper">
+           
+
+          <label>
+            <span>Nombres</span>
+            <input type="text" id="nombres" placeholder="Nombres">
+          </label>
+
+          <label>
+            <span >Apellidos</span>
+            <input type="text" id="apellidos" placeholder="Apellidos">
+          </label>
+
+          <label>
+            <div>
+              Documento
+            </div>
+            <select id="documento">
+              <option value="1" selected>Cédula de ciudadanía</option>
+              <option value="2">Tarjeta de Identidad</option>
+              <option value="3">Otro Documento(Extranjero)</option>
+            </select>
+          </label>
+
+          <label>
+            <span>Número del documento</span>
+            <input type="number" id="n_documento" placeholder="Número">
+          </label>
+
+          <label>
+            <span>Contraseña</span>
+            <input type="password" id="contrasena" placeholder="contraseña">
+          </label>
+
+          <label>
+            <span>Repetir Contraseña</span>
+            <input type="password" id="r_contrasena" placeholder="contraseña">
+          </label>
+
+          <label>
+            <span>Email</span>
+            <input type="email" id="email" placeholder="Email">
+          </label>
+          <label>
+            <span>Ciudad</span>
+            <input type="text" id="ciudad" placeholder="Ciudad">
+          </label>
+
+          <label>
+            <span>Telefono</span>
+            <input type="number" id="n_telefono" placeholder="Número">
+          </label>
+
+          <label>
+            <div>
+              Género
+            </div>
+            <select id="genero"> 
+              <option value="1" selected>Masculino</option>
+              <option value="2">Femenino</option>
+            </select>
+          </label>
+
+          <label>
+            <div>
+              Edad
+            </div>
+
+            <input type="number" id="edad">
+
+          </label>
+
+          <label>
+            <div>
+              Estrato
+            </div>
+            <select id="estrato">
+              <option value="1" selected>1</option>
+              <option value="2" >2</option>
+              <option value="3" >3</option>
+              <option value="4" >4</option>
+              <option value="5" >5</option>
+              <option value="6" >6</option>
+            </select>
+          </label>
+
+          <label>
+            <div>
+              Nivel Educativo
+            </div>
+            <select id="n_educativo">
+              <option value="1" selected>Primaria</option>
+              <option value="2">Secundaria</option>
+              <option value="3">Técnico</option>
+              <option value="4">Universitario</option>
+              <option value="5">Posgrado</option>
+              <option value="6">Ningúno</option>
+            </select>
+          </label>
+
+          <label>
+            <div>
+              Etnia
+            </div>
+            <select id="etnia">
+              <option value="1" selected>Ninguna</option>
+              <option value="2">Indígena</option>
+              <option value="3">Mestizo</option>
+              <option value="4">Afro</option>
+              <option value="5">Raizal</option>
+            </select>
+          </label>
+
+          <label>
+            <div>
+              Tipo de Usuario
+            </div>
+            <select id="t_usuario">
+              <option value="1" selected>Sordo</option>
+              <option value="2">Oyente</option>
+            </select>
+          </label>
+
+          <label>
+            <div>
+              Tipo de Discapacidad
+            </div>
+            <select id="t_discapacidad">
+              <option value="1" selected>Sordo</option>
+              <option value="2">Hipoacusico</option>
+              <option value="3">Sordoceguera</option>
+              <option value="4">Ninguna</option>
+            </select>
+          </label>
+
+          <label>
+            <div>
+              Ocupación
+            </div>
+            <select id="ocupacion">
+              <option value="1" selected>Empleado</option>
+              <option value="2">Desempleado</option>
+              <option value="3">Empresario</option>
+              <option value="4">Ama de casa</option>
+              <option value="5">Estudiante</option>
+              <option value="6">Independiente</option>
+              <option value="7">Voluntario</option>
+            </select>
+          </label>
+
+          <label>
+            <div class="input-label">
+              Víctima de Desplazamiento
+            </div>
+            <select id="v_desplaza">
+              <option value="1" selected>No</option>
+              <option value="2">Si</option>
+            </select>
+          </label>
+
+          <label>
+          <button data-inline="false" onclick='insertar()'>Crear Cuenta</button>
+
+           
+      </div><!--Hasta aquí va el content-->
+    
+  </div>
+  <!--Hasta aquí va la página Registrar-->
+
+  <!--Página Cuenta-->
+
+  <div data-role="page" data-theme="f" id="cuenta"> 
+
+    <!--Cabecera-->
+    <header class="bar bar-nav">    
+  <h1 class="title">Cuenta</h1>
+  <a class="icon icon-close pull-right" onclick="cerrar()" ></a>
+</header> 
+    <!--Hasta aquí la cabecera-->
+    
+      <div data-role="content"><!--Content de la página principal-->
+        <br><br><br>
+
+           
+          <center>
+            <img src="css/images/logotipo.png" width="50%"height="30%"><br><br>
+
+            <div id="nombre"></div></center>
+            <br>
+
+            <!--<a onclick="perfil();" data-role="button" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-user">Perfil</a>
+            
+            <a href="#popupLogin" data-rel="popup" data-position-to="window" data-transition="pop" class="ui-nodisc-icon ui-btn ui-shadow ui-corner-all ui-btn-icon-left ui-icon-video">Videollamada</a>
+
+            <a href="#acerca" data-role="button" class="ui-nodisc-icon ui-btn ui-icon-info ui-btn-icon-right">Acerca De</a>-->
+
+
+          <!-- <ul data-role="listview" data-inset="true" data-divider-theme="f" id="menu">
+              
+              <li><a onclick="perfil();">Perfil</a></li>
+              <li data-role="list-divider"> </li>
+              <li><a href="#popupLogin" data-rel="popup" data-position-to="window"data-transition="pop" >Videollamada</a></li>
+              <li data-role="list-divider"> </li>
+              <li><a href="#acerca">Acerca De</a></li>
+              <li data-role="list-divider"> </li>
+           </ul>-->
+
+<div class="card">
+         <ul class="table-view">
+    <li class="table-view-cell"><a class="navigate-right" onclick="perfil();"><span class="media-object pull-left icon icon-person"></span>Perfil</a></li></ul>
+      </div>
+
+      <div class="card">
+         <ul class="table-view">
+    <li class="table-view-cell"><a a href="#popupLogin" data-rel="popup" data-position-to="window"data-transition="pop" class="navigate-right"><span class="media-object pull-left icon icon-play"></span>Videollamada</a></li></ul>
+      </div>
+
+      <div class="card">
+         <ul class="table-view">
+    <li class="table-view-cell"><a href="#acerca" class="navigate-right"><span class="media-object pull-left icon icon-info"></span>Acerca De</a></li>
+    </ul>
+      </div>
+
+
+           <div data-role="popup" id="popupLogin" data-theme="a" class="ui-corner-all">
+      <a href="#" data-rel="back" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-icon-delete ui-btn-icon-notext ui-btn-right">Close</a>
+        <div style="padding:10px 20px;">
+            <h3>Videollamada</h3>
+            <label>Telefono a Llamar:</label>
+            <input type="number" name="user" id="un" data-theme="f">
+            <button class=" ui-btn-icon-left ui-icon-check" onclick="videocall();">Llamar</button>
+        </div>
+    
+      </div> 
+           
+      </div>
+      <!--Hasta aquí va el content-->
+    
+  </div>
+  <!--Hasta aquí va la página cuenta-->
+
+   <!--Página perfil-->
+
+  <div data-role="page" data-theme="f" id="perfil"> 
+
+    <!--Cabecera-->
+    <header class="bar bar-nav">
+  <a class="icon icon-left-nav pull-left" href="#cuenta"></a>
+  
+  <h1 class="title">Perfil</h1>
+</header> 
+    <!--Hasta aquí la cabecera-->
+    
+      <div data-role="content"><!--Content de la página principal-->
+           <br><br><br>
+           <center><div><img src="css/images/Video_Call-512.png" width="40%" ></div></center>
+           <div id="datos" class="card"></div>
+         
+
+     
+      </div><!--Hasta aquí va el content-->
+    
+  </div>
+  <!--Hasta aquí va la página perfil-->
+
+    <!--Página videollamada-->
+
+  <div data-role="page" data-theme="f" id="videollamada"> 
+
+    <!--Cabecera-->
+    <div data-role="header" >
+            
+        <h3>Videollamada</h3>
+    </div>
+    <!--Hasta aquí la cabecera-->
+    <br><br><br><br><br><br><br><br><center><a class="ui-btn" data-position="fixed" data-theme="f" data-tap-toggle="false"
+         onclick="cerrar()"><h4>Finalizar</h4></a></center><br><br><br><br><br><br><br><br><br><br><br><br><br>
+      <!--Content de la página principal-->
+      <div data-role="content" id="video">
+             <center><div id="subscribersDiv" ></div></center>
+             
+  
+     </div>
+      <!--Hasta aquí va el content-->
+    
+    	
+        
+    </div>
+  </div>
+  <!--Hasta aquí va la página videollamada-->
+
+  <div data-role="page" data-theme="f" id="acerca"> 
+
+    <!--Cabecera-->
+    <header class="bar bar-nav">
+  <a class="icon icon-left-nav pull-left" href="#cuenta"></a>
+  
+  <h1 class="title">Acerca De</h1>
+</header> 
+    <!--Hasta aquí la cabecera-->
+    
+      <div data-role="content"><!--Content de la página principal-->
+           <br><br>
+           <div class="card"><br>
+            <center><img src="css/images/logoOsteam.png" alt="" width="70%"></center>
+           <img src="css/images/1.png" alt="" width="32%">
+           <img src="css/images/2.png" alt="" width="32%">
+           <img src="css/images/3.png" alt="" width="32%"><br>
+           
+           <center><a href="mailto:osteam@gmail.com">osteamdevelopers@gmail.com</a></center></div>
+           <div class="card"><br>
+            <center> <p>Relevapp Version 1.0</p>              
+            </center>
+           </div>
+           <div class="card">
+           <center><p>Esta aplicación está sujeta a consumo de datos móviles o conexión a wifi</p></center>
+            </div>
+
+      
+      </div><!--Hasta aquí va el content-->
+    <div class="card" > 
+        
+            <img data-position="fixed" src="css/images/mintic.png" width="100%">
+        
+    </div>
+  </div>
+
+<!--Hasta aquí va la pagina acerca de-->
+
+<div data-role="page" data-theme="f" id="recordar"> 
+
+    <!--Cabecera-->
+    <header class="bar bar-nav">
+  <a class="icon icon-left-nav pull-left" href="#inicio"></a> 
+  <h1 class="title">Recordar Contraseña</h1>
+    <!--Hasta aquí la cabecera-->
+    
+      <div data-role="content"><!--Content de la página principal-->
+
+          <br><br><br>
+        <!--Formulario de recordar password-->
+          <label>
+            <span>Número de cédula</span>
+            <input type="number" id="cedula" placeholder="Cédula">
+          </label>
+
+          <label>
+            <span >Nueva Contraseña</span>
+            <input type="password" id="n_contra" placeholder="Nueva Contraseña">
+          </label>
+
+          <label>
+            <span >Repetir Nueva Contraseña</span>
+            <input type="password" id="rn_contra" placeholder="Repetir Contraseña">
+          </label>
+
+           <label>
+           <center><button data-inline="true" onclick='recordar();'>Actualizar Contraseña</button></center>
+          </label>
+
+          <!--Hasta aquí va el formulario-->
+           
+      </div><!--Hasta aquí va el content-->
+    
+  </div>
+
+
+
+  </div>
+
+  <!--Se cargan las librerías-->
+  <script src="js/jquery.js"></script>
+  <script src="js/jquery.mobile-1.4.0-rc.1.js"></script>
+  <script src="js/app.js"></script>
+  
+
+  </body>
+  
+</html>
+
